@@ -2,13 +2,23 @@ const { Pool } = require("pg");
 const bcrypt = require("bcryptjs");
 
 const pool = new Pool({
-  host: "containers-us-west-75.railway.app",
-  user: "postgres",
-  password: process.env.RAILWIND_PG_PASSWORD,
-  database: "railway",
-  port: 6589,
+  host: process.env.PGHOST || ' containers-us-west-73.railway.app',
+  user: process.env.PGUSER || "postgres",
+  password: process.env.PGPASSWORD || process.env.RAILWIND_PG_PASSWORD,
+  database: process.env.PGDATABASE || "railway",
+  port: process.env.PGPORT || 7422,
   allowExitOnIdle: true,
 });
+
+//const pool = new Pool({
+  //host: "containers-us-west-75.railway.app",
+  //user: "postgres",
+  //password: process.env.RAILWIND_PG_PASSWORD,
+  //database: "railway",
+  //port: 6589,
+  //allowExitOnIdle: true,
+//});
+
 
 const nuevoUsuario = async (nombre, email, password) => {
   const queryRevision = "SELECT * FROM usuario WHERE email = $1";
